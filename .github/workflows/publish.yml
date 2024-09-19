@@ -16,6 +16,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
   NuGetDirectory: ${{github.workspace}}/nuget
 
 defaults:
