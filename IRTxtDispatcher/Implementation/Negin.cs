@@ -1,9 +1,18 @@
+using System.Net;
 using IRTxtDispatcher.DTO;
 using IRTxtDispatcher.Interface;
+using Microsoft.VisualBasic;
+using System.Text.Json;
 
 namespace IRTxtDispatcher.Implementation;
+
 public class Negin : IOperation
 {
+    private readonly HttpClient httpClient;
+    public Negin()
+    {
+        httpClient = new HttpClient();
+    }
     public string ServerUrl => "https://sms.3300.ir/api/wssend.ashx";
 
     public string ImplementSummery()
@@ -11,20 +20,76 @@ public class Negin : IOperation
         return "نگین ارتباط الماس";
     }
 
-    public Task<List<SendResult>> SendAsync(SendConfiguration configuration, List<Send> messages)
+    public async Task<List<SendResult>> SendAsync(SendConfiguration configuration, List<Send> messages)
     {
-        var client = new HttpClient();
-        var data = new List<KeyValuePair<string, string>>
+        List<SendResult> sendingResults = [];
+        foreach (var message in messages)
         {
-        new KeyValuePair<string, string>("username","USERNAME"),
-        new KeyValuePair<string, string>("password","PASSWORD" ),
-        new KeyValuePair<string, string>("mobile","09395213300" ),
-        new KeyValuePair<string, string>("message","MESSAGE_TEXT" ),
-        new KeyValuePair<string, string>("line","983000...." ),
-        // new KeyValuePair<string, string>("type","2" ), برای ارسال پیامک فعالسازی با خط خدماتی شرکت
-        };
-        var response = client.PostAsync("https://sms.3300.ir/api/wssend.ashx", new FormUrlEncodedContent(data)).Result;
-        Console.Write(response.Content.ReadAsStringAsync().Result);
-        throw new NotImplementedException();
+            var data = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("username",configuration.Username),
+                new KeyValuePair<string, string>("password",configuration.Password ),
+                new KeyValuePair<string, string>("mobile",message.Number ),
+                new KeyValuePair<string, string>("message",message.Message ),
+                new KeyValuePair<string, string>("line",configuration.LineNumber),                
+                // new KeyValuePair<string, string>("type","2" ), برای ارسال پیامک فعالسازی با خط خدماتی شرکت
+            };
+            try
+            {
+                var response = await httpClient.PostAsync("https://sms.3300.ir/api/wssend.ashx", new FormUrlEncodedContent(data));
+                if (response.IsSuccessStatusCode)
+                {
+                    NeginResult? res = JsonSerializer.Deserialize<NeginResult>(await response.Content.ReadAsStreamAsync());
+                    if (res != null && res.status == -1)
+                    {
+                        sendingResults.Add(new SendResult()
+                        {
+                            IsSuccess = true,
+                            ErrorCode = string.Empty,
+                            ErrorTitle = string.Empty,
+                            LineNumber = configuration.LineNumber,
+                            Message = message.Message,
+                            Number = message.Number,
+                            UniqueId = res.data.message_id.ToString()
+                        });
+                    }
+                    else
+                    {
+                        sendingResults.Add(new SendResult()
+                        {
+                            IsSuccess = false,
+                            ErrorCode = (res != null && res?.status != null) ? $"{res?.status}" : string.Empty,
+                            ErrorTitle = res?.msg ?? string.Empty,
+                        });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                sendingResults.Add(new SendResult()
+                {
+                    IsSuccess = false,
+                    ErrorCode = message.Number,
+                    ErrorTitle = e.Message,
+                });
+                continue;
+            }
+        }
+        return sendingResults;
     }
+}
+
+
+public class NeginMessageResult
+{
+    public long message_id { get; set; }
+    public long line { get; set; }
+    public long mobile { get; set; }
+}
+
+public class NeginResult
+{
+    public NeginMessageResult data { get; set; }
+    public int status { get; set; }
+    public string msg { get; set; }
 }
