@@ -63,6 +63,15 @@ public class Negin : IOperation
                         });
                     }
                 }
+                else
+                {
+                    sendingResults.Add(new SendResult()
+                    {
+                        IsSuccess = false,
+                        ErrorCode = $"{response.StatusCode}",
+                        ErrorTitle = response.ReasonPhrase,
+                    });
+                }
             }
             catch (Exception e)
             {
