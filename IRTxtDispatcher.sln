@@ -3,20 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRTxtDispatcher", "IRTxtDispatcher\IRTxtDispatcher.csproj", "{771387A4-5B45-4C4E-B15D-4C0926410334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IRTxtDispatcher", "IRTxtDispatcher\IRTxtDispatcher.csproj", "{771387A4-5B45-4C4E-B15D-4C0926410334}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IRTxtDispatcher.Test", "IRTxtDispatcher.Test\IRTxtDispatcher.Test.csproj", "{10951E4A-FA3C-4708-9C6C-E5E52C1F3351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{771387A4-5B45-4C4E-B15D-4C0926410334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{771387A4-5B45-4C4E-B15D-4C0926410334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771387A4-5B45-4C4E-B15D-4C0926410334}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771387A4-5B45-4C4E-B15D-4C0926410334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10951E4A-FA3C-4708-9C6C-E5E52C1F3351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10951E4A-FA3C-4708-9C6C-E5E52C1F3351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10951E4A-FA3C-4708-9C6C-E5E52C1F3351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10951E4A-FA3C-4708-9C6C-E5E52C1F3351}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
