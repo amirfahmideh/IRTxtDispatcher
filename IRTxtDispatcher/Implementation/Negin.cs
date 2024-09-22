@@ -31,15 +31,15 @@ public class Negin : IOperation
                 new KeyValuePair<string, string>("password",configuration.Password ),
                 new KeyValuePair<string, string>("mobile",message.Number ),
                 new KeyValuePair<string, string>("message",message.Message ),
-                new KeyValuePair<string, string>("line",configuration.LineNumber),                
-                // new KeyValuePair<string, string>("type","2" ), برای ارسال پیامک فعالسازی با خط خدماتی شرکت
+                new KeyValuePair<string, string>("line",configuration.LineNumber),
             };
             try
             {
                 var response = await httpClient.PostAsync("https://sms.3300.ir/api/wssend.ashx", new FormUrlEncodedContent(data));
                 if (response.IsSuccessStatusCode)
                 {
-                    NeginResult? res = JsonSerializer.Deserialize<NeginResult>(await response.Content.ReadAsStreamAsync());
+                    var responseResult = await response.Content.ReadAsStringAsync();
+                    NeginResult? res = JsonSerializer.Deserialize<NeginResult>(responseResult);
                     if (res != null && res.status == -1)
                     {
                         sendingResults.Add(new SendResult()
@@ -91,9 +91,9 @@ public class Negin : IOperation
 
 public class NeginMessageResult
 {
-    public long message_id { get; set; }
-    public long line { get; set; }
-    public long mobile { get; set; }
+    public string message_id { get; set; } = "";
+    public string line { get; set; } = "";
+    public string mobile { get; set; } = "";
 }
 
 public class NeginResult

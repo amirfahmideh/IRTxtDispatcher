@@ -1,4 +1,6 @@
 namespace IRTxtDispatcher.Test;
+
+using System.Configuration;
 using IRTxtDispatcher;
 using IRTxtDispatcher.DTO;
 
@@ -14,17 +16,17 @@ public class NeginTests
     {
         IRTxtDispatcherOperation operation = new IRTxtDispatcherOperation(DTO.SupportedImplementationType.NEGIN, new DTO.SendConfiguration()
         {
-            LineNumber = "83743847847348",
-            Password = "45613781238",
-            Username = "some user name"
+            LineNumber = "213123",
+            Password = "12312323123",
+            Username = "123123123"
         });
 
         var sendingMessage = new List<Send>
         {
             new Send()
             {
-                Message = "323223",
-                Number = "2323"
+                Message = "تست سامانه ارسال پیام کوتاه",
+                Number = "12312312312"
             }
         };
         var result = await operation.SendAsync(sendingMessage);
