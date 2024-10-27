@@ -6,10 +6,10 @@ using System.Text.Json;
 
 namespace IRTxtDispatcher.Implementation;
 
-public class Negin : IOperation
+public class NeginImpl : IOperation
 {
     private readonly HttpClient httpClient;
-    public Negin()
+    public NeginImpl()
     {
         httpClient = new HttpClient();
     }

@@ -9,7 +9,8 @@ internal class OperationFactory
     {
         return supported switch
         {
-            SupportedImplementationType.NEGIN => new Negin(),
+            SupportedImplementationType.NEGIN => new NeginImpl(),
+            SupportedImplementationType.KAVENEGAR => new KavenegarImpl(),
             _ => throw new NotImplementException($"درگاه ارسال از نوع {supported} پیاده سازی نشده است"),
         };
     }
