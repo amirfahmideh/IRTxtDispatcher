@@ -14,6 +14,7 @@ public class NeginImpl : IOperation
         httpClient = new HttpClient();
     }
     public string ServerUrl => "https://sms.3300.ir/api/wssend.ashx";
+    // public string ServerUrl => "https://sms.neginertebat.ir/api/wssend.ashx";
 
     public string ImplementSummery()
     {
